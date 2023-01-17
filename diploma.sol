@@ -64,17 +64,13 @@ contract Diploma is ERC721, ERC721URIStorage, Ownable {
     }
 
     // required override from solidity
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) onlyOwner{
+        require(isWhitelisted(msg.sender), "Organization has not been approved to burn diplomas")
         super._burn(tokenId);
     }
 
     // returns string 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         return super.tokenURI(tokenId);
     }
 
